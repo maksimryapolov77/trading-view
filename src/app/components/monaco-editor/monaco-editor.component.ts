@@ -4,7 +4,7 @@ import { IWidget, IColumnCard } from '@lib/models';
 @Component({
   selector: 'app-monaco-editor',
   templateUrl: './monaco-editor.component.html',
-  styleUrls: ['./monaco-editor.component.scss']
+  styleUrls: ['./monaco-editor.component.scss'],
 })
 export class MonacoEditorComponent implements OnInit, IWidget {
   @Output()

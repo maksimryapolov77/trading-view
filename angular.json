@@ -52,8 +52,7 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/ag-grid-community/src/styles/ag-grid.scss",
-              "node_modules/ag-grid-community/src/styles/ag-theme-balham-dark/sass/ag-theme-balham-dark.scss",
+              
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
