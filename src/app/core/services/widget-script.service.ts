@@ -1,7 +1,7 @@
 import { Injectable, Renderer2 } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WidgetScriptService {
   public appendScript(renderer: Renderer2, container: HTMLElement, scriptData: any, widgetParams: any) {

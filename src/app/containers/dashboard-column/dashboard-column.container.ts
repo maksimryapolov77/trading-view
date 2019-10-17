@@ -10,6 +10,11 @@ import { DashboardColumnOptions } from './dashboard-column.options';
   styleUrls: ['./dashboard-column.container.scss']
 })
 export class DashboardColumnContainer implements OnInit {
+  symbol = 'DEI';
+  onSymbolChanged(symbol: string) {
+    this.symbol = symbol;
+  }
+
   @Output()
   public resizeGridsterCard = new EventEmitter<Partial<IColumnCard>>();
 

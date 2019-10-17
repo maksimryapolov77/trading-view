@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
+import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { GridsterModule } from 'angular-gridster2';
@@ -21,6 +22,7 @@ import {
   MarketOverviewChartComponent,
 
   AgTableGridComponent,
+  MonacoEditorComponent,
 } from './components';
 
 const CONTAINERS = [
@@ -39,6 +41,7 @@ const COMPONENTS = [
 
   // other-widgets
   AgTableGridComponent,
+  MonacoEditorComponent,
 ];
 
 const entryComponents = [
@@ -46,7 +49,14 @@ const entryComponents = [
   StockMarketChartComponent,
   MarketOverviewChartComponent,
   AgTableGridComponent,
+  MonacoEditorComponent,
+
 ];
+
+const monacoConfig: NgxMonacoEditorConfig = {
+  baseUrl: './assets',
+  defaultOptions: { scrollBeyondLastLine: false },
+};
 
 @NgModule({
   declarations: [
@@ -55,9 +65,10 @@ const entryComponents = [
     CONTAINERS,
   ],
   imports: [
-    BrowserModule,
+  BrowserModule,
     CoreModule,
     FormsModule,
+    MonacoEditorModule.forRoot(monacoConfig),
     AgGridModule.withComponents([]),
 
     NgxUiLoaderModule,
@@ -68,4 +79,4 @@ const entryComponents = [
   bootstrap: [AppComponent],
   entryComponents,
 })
-export class AppModule { }
+export class AppModule {}

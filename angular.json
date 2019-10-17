@@ -43,10 +43,17 @@
             "tsConfig": "tsconfig.app.json",
             "aot": false,
             "assets": [
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-monaco-editor/assets/monaco",
+                "output": "./assets/monaco/"
+              },
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
+              "node_modules/ag-grid-community/src/styles/ag-grid.scss",
+              "node_modules/ag-grid-community/src/styles/ag-theme-balham-dark/sass/ag-theme-balham-dark.scss",
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {

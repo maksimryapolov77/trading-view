@@ -13,14 +13,14 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 import { StorageService } from '@app/core/services';
-import { IWidgetBarSelector, StorageKeys, IColumnCard } from '@lib/models';
+import { IWidgetBarSelector, StorageKeys, IColumnCard, ChartTypes } from '@lib/models';
 import { StockMarketChartComponent } from './../stock-market-chart/stock-market-chart.component';
 import { MarketOverviewChartComponent } from './../market-overview-chart/market-overview-chart.component';
 import { RealTimeChartComponent } from './../real-time-chart/real-time-chart.component';
 import { AgTableGridComponent } from './../ag-table-grid/ag-table-grid.component';
+import { MonacoEditorComponent } from './../monaco-editor/monaco-editor.component';
 
 import { ComponentSelectors } from './widget-bar-selectors';
-import { ChartTypes } from '@lib/models';
 
 @Component({
   selector: 'app-widget-bar',
@@ -53,7 +53,7 @@ export class WidgetBarComponent implements OnInit {
     private _cfr: ComponentFactoryResolver,
     private _ngxLoaderSvc: NgxUiLoaderService,
     private _storageSvc: StorageService,
-  ) {}
+  ) { }
 
   public ngOnInit() {
     const selectors = this._storageSvc.get(StorageKeys.widgetBar) as IWidgetBarSelector[] || ComponentSelectors;
@@ -82,9 +82,9 @@ export class WidgetBarComponent implements OnInit {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
     }
 
     setTimeout(() => {
@@ -92,9 +92,11 @@ export class WidgetBarComponent implements OnInit {
         return;
       }
 
-      let selectors = [
-        ...(event.container.data as any).map((d: IColumnCard) => ({ ...d, pinned: newContainerName === this.pinnedSelectorsContainerName, component: undefined })),
-        ...(event.previousContainer.data as any).map((d: IColumnCard) => ({ ...d, pinned: previousContainerName === this.pinnedSelectorsContainerName, component: undefined })),
+      const selectors = [
+        ...(event.container.data as any)
+          .map((d: IColumnCard) => ({ ...d, pinned: newContainerName === this.pinnedSelectorsContainerName, component: undefined })),
+        ...(event.previousContainer.data as any)
+          .map((d: IColumnCard) => ({ ...d, pinned: previousContainerName === this.pinnedSelectorsContainerName, component: undefined })),
       ];
 
       this._storageSvc.set(StorageKeys.widgetBar, selectors);
@@ -146,7 +148,7 @@ export class WidgetBarComponent implements OnInit {
   }
 
   private addComponentToSelector(selector: IWidgetBarSelector) {
-    let component = undefined;
+    let component;
 
     switch (selector.type) {
       case ChartTypes.MarketOverviewChart:
@@ -161,8 +163,11 @@ export class WidgetBarComponent implements OnInit {
       case ChartTypes.AgTableGrid:
         component = AgTableGridComponent;
         break;
+      case ChartTypes.MonacoEditor:
+        component = MonacoEditorComponent;
+        break;
     }
 
     return { ...selector, component };
   }
- }
+}

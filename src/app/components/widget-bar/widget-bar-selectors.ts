@@ -51,4 +51,20 @@ export const ComponentSelectors = [
     type: ChartTypes.StockMarketChart,
     drawDataset: undefined,
   },
+  {
+    id: 7,
+    pinned: false,
+    title: 'Real-Time Chart',
+    component: undefined,
+    type: ChartTypes.RealTimeChart,
+    drawDataset: undefined,
+  },
+  {
+    id: 8,
+    pinned: false,
+    title: 'Monaco Editor',
+    component: undefined,
+    type: ChartTypes.MonacoEditor,
+    drawDataset: undefined,
+  },
 ];
