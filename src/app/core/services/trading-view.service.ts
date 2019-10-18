@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class TradingViewService {
-  public _tradingView = (window as any).TradingView;
+  public readonly _tradingView = (window as any).TradingView;
 
   public get TradingView(): any {
     return this._tradingView;

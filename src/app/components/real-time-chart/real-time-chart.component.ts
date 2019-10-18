@@ -1,5 +1,5 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { IWidget, IColumnCard } from '@lib/models';
+import { Component, Input, OnDestroy, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { IWidgetComponent, IWidget } from '@lib/models';
 import { ChartingLibraryWidgetOptions, IChartingLibraryWidget, LanguageCode, widget } from 'assets/charting_library/charting_library.min';
 
 @Component({
@@ -7,7 +7,11 @@ import { ChartingLibraryWidgetOptions, IChartingLibraryWidget, LanguageCode, wid
   templateUrl: './real-time-chart.component.html',
   styleUrls: ['./real-time-chart.component.scss'],
 })
-export class RealTimeChartComponent implements IWidget, OnInit, OnDestroy {
+
+export class RealTimeChartComponent implements IWidgetComponent, AfterViewInit, OnInit, OnDestroy {
+  @ViewChild('realtimeChart', { static: true })
+  public realtimeChart: ElementRef;
+
   @Input()
   public drawDataset: any;
 
@@ -15,7 +19,7 @@ export class RealTimeChartComponent implements IWidget, OnInit, OnDestroy {
   public data: any;
 
   @Input()
-  public widget: IColumnCard;
+  public widget: IWidget;
 
   public width: number;
   public height: number;
@@ -148,7 +152,11 @@ export class RealTimeChartComponent implements IWidget, OnInit, OnDestroy {
       });
     });
   }
-
+  
+  public ngAfterViewInit() {
+    this.init();
+  }
+  
   public init(resetData?: any) {
     this.width = resetData && resetData.width
       ? Math.floor(resetData.width)

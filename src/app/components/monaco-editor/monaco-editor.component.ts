@@ -1,17 +1,14 @@
-import { Component, OnInit, Input, ViewContainerRef, ViewChild, Output, EventEmitter } from '@angular/core';
-import { IWidget, IColumnCard } from '@lib/models';
+import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { IWidget, IWidgetComponent } from '@lib/models';
 
 @Component({
   selector: 'app-monaco-editor',
   templateUrl: './monaco-editor.component.html',
   styleUrls: ['./monaco-editor.component.scss'],
 })
-export class MonacoEditorComponent implements OnInit, IWidget {
+export class MonacoEditorComponent implements IWidgetComponent, AfterViewInit, OnDestroy {
   @Output()
   symbolChanged = new EventEmitter<string>();
-
-  @ViewChild('monacoEditor', { static: true, read: ViewContainerRef })
-  public monacoEditor: ViewContainerRef;
 
   @Input()
   public drawDataset: any;
@@ -20,7 +17,7 @@ export class MonacoEditorComponent implements OnInit, IWidget {
   public data: any;
 
   @Input()
-  public widget: IColumnCard;
+  public widget: IWidget;
 
   public width: number;
   public height: number;
@@ -32,16 +29,18 @@ export class MonacoEditorComponent implements OnInit, IWidget {
 
   public code = '';
 
-  constructor() { }
-
-  public ngOnInit() {
-    this.init();
+  ngOnDestroy() {
+    console.log('MonacoEditorComponent destoryed');
   }
 
   onKeyUp() {
     console.log('enter ');
     const symbol: string = this.code.replace(/(\r\n|\n|\r)/gm, '');
     this.symbolChanged.emit(symbol);
+  }
+
+  public ngAfterViewInit() {
+    this.init();
   }
 
   public init(resetData?: any) {

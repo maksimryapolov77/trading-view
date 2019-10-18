@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, Input, EventEmitter, Output } from '@angular/core';
-import { IWidget, IColumnCard } from '@lib/models';
+import { Component, OnInit, ViewChild, ViewContainerRef, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
+import { IWidgetComponent, IWidget } from '@lib/models';
 import { WidgetDataService } from '@app/core/services';
 import { GridQuotesService } from './../../core/services/grid-quotes.service';
 
@@ -8,7 +8,7 @@ import { GridQuotesService } from './../../core/services/grid-quotes.service';
   templateUrl: './ag-table-grid.component.html',
   styleUrls: ['./ag-table-grid.component.scss'],
 })
-export class AgTableGridComponent implements OnInit, IWidget {
+export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy {
   @Output()
   symbolChanged = new EventEmitter<string>();
 
@@ -22,13 +22,13 @@ export class AgTableGridComponent implements OnInit, IWidget {
   public data: any;
 
   @Input()
-  public widget: IColumnCard;
+  public widget: IWidget;
 
   public width: number;
   public height: number;
 
   // public columnDefs;
-  public rowData;
+  public rowData: any;
 
   columnDefs = [
     { headerName: 'Symbol', field: 'v.short_name', sortable: true, filter: true},
@@ -52,11 +52,12 @@ export class AgTableGridComponent implements OnInit, IWidget {
 
   public async ngOnInit() {
     this.init();
-
-    // this.columnDefs = this.data && this.data.value ? this.data.value.columnDefs : this._columnDefs;
-    // this.rowData = this.data && this.data.value ? this.data.value.rowData : this._rowData;
-    const data: any = await this._gridQuotesSvc.getQuotes();
+  	const data: any = await this._gridQuotesSvc.getQuotes();
     this.rowData = data.d;
+  }
+
+  ngOnDestroy() {
+    console.log('AgTableGridComponent destoryed');
   }
 
   public init(resetData?: any) {

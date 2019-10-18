@@ -65,7 +65,7 @@ const monacoConfig: NgxMonacoEditorConfig = {
     CONTAINERS,
   ],
   imports: [
-  BrowserModule,
+  	BrowserModule,
     CoreModule,
     FormsModule,
     MonacoEditorModule.forRoot(monacoConfig),
