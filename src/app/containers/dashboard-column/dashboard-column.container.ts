@@ -8,14 +8,10 @@ import { WidgetBarService } from '@app/core/services';
 @Component({
   selector: 'app-dashboard-column',
   templateUrl: './dashboard-column.container.html',
-  styleUrls: ['./dashboard-column.container.scss'],
+  styleUrls: ['./dashboard-column.container.scss']
 })
 export class DashboardColumnContainer implements OnInit {
 
-  public get columnCards(): any[] {
-    return this.column.cards;
-  }
-;
   @Output()
   public resizeGridsterCard = new EventEmitter<Partial<IWidget>>();
 
@@ -41,6 +37,10 @@ export class DashboardColumnContainer implements OnInit {
   symbol = 'DEI';
 
   private readonly _activePanelHeight = 23;
+
+  public get columnCards(): any[] {
+    return this.column.cards;
+  }
 
   constructor(
     private _widgetBarSvc: WidgetBarService,
@@ -107,5 +107,5 @@ export class DashboardColumnContainer implements OnInit {
     this.columnCards.splice(this.columnCards.indexOf(item), 1);
   }
 
-  public showSettings() { }
+  public showSettings() {}
 }

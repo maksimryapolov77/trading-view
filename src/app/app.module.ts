@@ -79,4 +79,4 @@ const monacoConfig: NgxMonacoEditorConfig = {
   bootstrap: [AppComponent],
   entryComponents,
 })
-export class AppModule {}
+export class AppModule { }

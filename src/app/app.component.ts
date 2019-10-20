@@ -34,9 +34,8 @@ export class AppComponent implements AfterViewInit {
     setTimeout(() => {
       const defaultColumn = { id: 1,  cards: [] };
       this.columns = this._storageSvc.get(StorageKeys.columns) || [defaultColumn];
-      
-      this.columns = this.columns
-        .map(c => ({ ...c, cards: this._widgetBarSvc.widgetBarValue.filter(widget => widget.columnId === c.id && widget.hidden) }))
+      this.columns = this.columns.map(c => ({ ...c, cards: this._widgetBarSvc.widgetBarValue.filter(widget => widget.columnId === c.id && widget.hidden) }))
+
       this.activeColumnIndex = 0;
     })
   }
@@ -84,4 +83,3 @@ export class AppComponent implements AfterViewInit {
     })
   }
 }
-
