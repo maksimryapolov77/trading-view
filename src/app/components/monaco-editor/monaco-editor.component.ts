@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IWidget, IWidgetComponent } from '@lib/models';
 
 @Component({
@@ -6,10 +6,7 @@ import { IWidget, IWidgetComponent } from '@lib/models';
   templateUrl: './monaco-editor.component.html',
   styleUrls: ['./monaco-editor.component.scss'],
 })
-export class MonacoEditorComponent implements IWidgetComponent, AfterViewInit, OnDestroy {
-  @Output()
-  symbolChanged = new EventEmitter<string>();
-
+export class MonacoEditorComponent implements IWidgetComponent, OnInit {
   @Input()
   public drawDataset: any;
 
@@ -29,17 +26,7 @@ export class MonacoEditorComponent implements IWidgetComponent, AfterViewInit, O
 
   public code = '';
 
-  ngOnDestroy() {
-    console.log('MonacoEditorComponent destoryed');
-  }
-
-  onKeyUp() {
-    console.log('enter ');
-    const symbol: string = this.code.replace(/(\r\n|\n|\r)/gm, '');
-    this.symbolChanged.emit(symbol);
-  }
-
-  public ngAfterViewInit() {
+  public ngOnInit() {
     this.init();
   }
 
@@ -49,6 +36,10 @@ export class MonacoEditorComponent implements IWidgetComponent, AfterViewInit, O
       : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
     this.height = resetData && resetData.height
       ? Math.floor(resetData.height)
-      : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 400;
+      : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 600;
+
+    console.log(this.width);
+    console.log(this.height);
+    this.code = 'width: ' + this.width + '\nheight: ' + this.height;  
   }
 }

@@ -96,6 +96,7 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (widget.isCustom) {
       const widgetIndex = widgets.findIndex(value => value.id === widget.id);
+      // tslint:disable-next-line: no-array-mutation
       widgets[widgetIndex].hidden = true;
       this._widgetBarSvc.updateWidgetList(widgets);
       this.selectChart.emit(widget);
@@ -125,9 +126,11 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
 
-      let selectors = [
-        ...(event.container.data as any).map((d: IWidget) => ({ ...d, pinned: newContainerName === this.pinnedSelectorsContainerName })),
-        ...(event.previousContainer.data as any).map((d: IWidget) => ({ ...d, pinned: previousContainerName === this.pinnedSelectorsContainerName })),
+      const selectors = [
+        ...(event.container.data as any)
+          .map((d: IWidget) => ({ ...d, pinned: newContainerName === this.pinnedSelectorsContainerName })),
+        ...(event.previousContainer.data as any)
+          .map((d: IWidget) => ({ ...d, pinned: previousContainerName === this.pinnedSelectorsContainerName })),
       ];
 
       this._widgetBarSvc.updateWidgetList(selectors);
@@ -145,8 +148,6 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.hoveredWidgetIndex = index;
 
     setTimeout(() => this.stopLoader(), 300);
-
-
 
     const factory = this._cfr.resolveComponentFactory(widget.component as any);
     const containerRef = this.getContainerRefByWidgetId(widget.id);

@@ -39,6 +39,7 @@ import { QuotesPulseProvider } from './quotes-pulse-provider';
 import { SymbolsStorage } from './symbols-storage';
 import { Requester } from './requester';
 
+// tslint:disable-next-line: interface-name
 export interface UdfCompatibleConfiguration extends DatafeedConfiguration {
 	// tslint:disable:tv-variable-name
 	supports_search?: boolean;
@@ -46,11 +47,13 @@ export interface UdfCompatibleConfiguration extends DatafeedConfiguration {
 	// tslint:enable:tv-variable-name
 }
 
+// tslint:disable-next-line: interface-name
 export interface ResolveSymbolResponse extends LibrarySymbolInfo {
 	s: undefined;
 }
 
 // it is hack to let's TypeScript make code flow analysis
+// tslint:disable-next-line: interface-name
 export interface UdfSearchSymbolsResponse extends Array<SearchSymbolResultItem> {
 	s?: undefined;
 }

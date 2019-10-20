@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { GridsterConfig, GridsterItem }  from 'angular-gridster2';
+import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 
 import { ChartTypes, IColumn, IWidget } from '@lib/models';
 import { DashboardColumnOptions } from './dashboard-column.options';
@@ -8,9 +8,14 @@ import { WidgetBarService } from '@app/core/services';
 @Component({
   selector: 'app-dashboard-column',
   templateUrl: './dashboard-column.container.html',
-  styleUrls: ['./dashboard-column.container.scss']
+  styleUrls: ['./dashboard-column.container.scss'],
 })
 export class DashboardColumnContainer implements OnInit {
+
+  public get columnCards(): any[] {
+    return this.column.cards;
+  }
+;
   @Output()
   public resizeGridsterCard = new EventEmitter<Partial<IWidget>>();
 
@@ -33,20 +38,17 @@ export class DashboardColumnContainer implements OnInit {
   public options: GridsterConfig;
   public currentGridItemIndex: number;
 
-  private readonly _activePanelHeight = 23;
-
   symbol = 'DEI';
-  onSymbolChanged(symbol: string) {
-    this.symbol = symbol;
-  }
-  
-  public get columnCards(): any[] {
-    return this.column.cards;
-  }
+
+  private readonly _activePanelHeight = 23;
 
   constructor(
     private _widgetBarSvc: WidgetBarService,
-  ) {}
+  ) { }
+  
+  onSymbolChanged(symbol: string) {
+    this.symbol = symbol;
+  }
 
   public ngOnInit() {
     this.options = {
@@ -84,8 +86,7 @@ export class DashboardColumnContainer implements OnInit {
 
     const { width, height } = gridsterItem;
     return { containerId: `container-${this.column.id}-${cardIndex}`, width, height: height - this._activePanelHeight };
-  };
-
+  }
   public changedOptions() {
     if (this.options.api && this.options.api.optionsChanged) {
       this.options.api.optionsChanged();
@@ -106,5 +107,5 @@ export class DashboardColumnContainer implements OnInit {
     this.columnCards.splice(this.columnCards.indexOf(item), 1);
   }
 
-  public showSettings() {}
+  public showSettings() { }
 }

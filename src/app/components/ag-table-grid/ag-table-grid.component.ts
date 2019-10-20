@@ -1,20 +1,19 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnDestroy,
+} from '@angular/core';
 import { IWidgetComponent, IWidget } from '@lib/models';
-import { WidgetDataService } from '@app/core/services';
-import { GridQuotesService } from './../../core/services/grid-quotes.service';
+import { GridQuotesService } from '@app/core/services';
 
 @Component({
   selector: 'app-ag-table-grid',
   templateUrl: './ag-table-grid.component.html',
   styleUrls: ['./ag-table-grid.component.scss'],
 })
+
 export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy {
-  @Output()
-  symbolChanged = new EventEmitter<string>();
-
-  @ViewChild('agGrid', { static: true, read: ViewContainerRef })
-  public agGrid: ViewContainerRef;
-
   @Input()
   public drawDataset: any;
 
@@ -26,8 +25,6 @@ export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy
 
   public width: number;
   public height: number;
-
-  // public columnDefs;
   public rowData: any;
 
   columnDefs = [
@@ -43,42 +40,36 @@ export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy
     { headerName: 'Volume', field: 'v.volume', sortable: true, filter: true, resizable: true },
   ];
 
-  // private _rowData;
-
   constructor(
-    private _widgetDataSvc: WidgetDataService,
     private _gridQuotesSvc: GridQuotesService,
   ) { }
 
   public async ngOnInit() {
-    this.init();
-  	const data: any = await this._gridQuotesSvc.getQuotes();
+    const data: any = await this._gridQuotesSvc.getQuotes();
     this.rowData = data.d;
+    this.init();
   }
 
-  ngOnDestroy() {
-    console.log('AgTableGridComponent destoryed');
+  public ngOnDestroy() {
   }
 
   public init(resetData?: any) {
-    this.width = resetData && resetData.width
-      ? Math.floor(resetData.width)
-      : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
-    this.height = resetData && resetData.height
-      ? Math.floor(resetData.height)
-      : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 400;
+    this.width = resetData && resetData.width 
+      ? Math.floor(resetData.width) : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
+    this.height = resetData && resetData.height 
+      ? Math.floor(resetData.height) : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 660;
+    
   }
 
-  public change(e) {
-    const { data, rowIndex } = e;
+  // public change(e) {
+  //   const { data, rowIndex } = e;
 
-    this.rowData = this.rowData.map((row, index) => rowIndex === index ? data : row);
-    this._widgetDataSvc.updateByWidgetId(this.widget.id, this.widget.columnId, { rowData: this.rowData, columnDefs: this.columnDefs });
-  }
+  //   this.rowData = this.rowData.map((row, index) => rowIndex === index ? data : row);
+  //   this._widgetDataSvc.updateByWidgetId(this.widget.id, this.widget.columnId, { rowData: this.rowData, columnDefs: this.columnDefs });
+  // }
 
-  onRowClicked(event: { data: { v: { short_name: string; }; }; }) {
-    const symbol: string = event.data.v.short_name;
-    this.symbolChanged.emit(symbol);
-  }
+  // onRowClicked(event: { data: { v: { short_name: string; }; }; }) {
+  //   const symbol: string = event.data.v.short_name;
+  // }
   
 }

@@ -1,16 +1,15 @@
-import { Component, Input, OnDestroy, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { IWidgetComponent, IWidget } from '@lib/models';
-import { ChartingLibraryWidgetOptions, IChartingLibraryWidget, LanguageCode, widget } from 'assets/charting_library/charting_library.min';
+import { ChartingLibraryWidgetOptions, widget } from 'assets/charting_library/charting_library.min';
 
 @Component({
   selector: 'app-real-time-chart',
   templateUrl: './real-time-chart.component.html',
   styleUrls: ['./real-time-chart.component.scss'],
 })
-
-export class RealTimeChartComponent implements IWidgetComponent, AfterViewInit, OnInit, OnDestroy {
-  @ViewChild('realtimeChart', { static: true })
-  public realtimeChart: ElementRef;
+export class RealTimeChartComponent implements OnInit, IWidgetComponent {
+  // @ViewChild('container', { static: true })
+  // public container: ElementRef;
 
   @Input()
   public drawDataset: any;
@@ -21,10 +20,9 @@ export class RealTimeChartComponent implements IWidgetComponent, AfterViewInit, 
   @Input()
   public widget: IWidget;
 
-  public width: number;
-  public height: number;
+  public _content: HTMLElement;
 
-  // tslint:disable: variable-name
+
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'AAPL';
   private _interval: ChartingLibraryWidgetOptions['interval'] = 'D';
   private _datafeedUrl = 'https://demo_feed.tradingview.com';
@@ -34,96 +32,34 @@ export class RealTimeChartComponent implements IWidgetComponent, AfterViewInit, 
   private _clientId: ChartingLibraryWidgetOptions['client_id'] = 'tradingview.com';
   private _userId: ChartingLibraryWidgetOptions['user_id'] = 'public_user_id';
   private _fullscreen: ChartingLibraryWidgetOptions['fullscreen'] = false;
-  private _autosize: ChartingLibraryWidgetOptions['autosize'] = true;
-  private _containerId: ChartingLibraryWidgetOptions['container_id'] = 'tv_chart_container';
-  private _tvWidget: IChartingLibraryWidget | null = null;
+  private _autosize: ChartingLibraryWidgetOptions['autosize'] = false;
+  private _containerId: ChartingLibraryWidgetOptions['container_id'] = 'real-time-chart-container';
   private _theme: ChartingLibraryWidgetOptions['theme'] = 'Dark';
+  private _disabled_features: ChartingLibraryWidgetOptions['disabled_features'] = ['use_localstorage_for_settings', 'left_toolbar'];
+  private _enabled_features: ChartingLibraryWidgetOptions['enabled_features'] = ['study_templates'];
+
 
   @Input()
-  set theme(theme: ChartingLibraryWidgetOptions['theme']) {
-    this._theme = theme || this._theme;
+  public set symbol(value: ChartingLibraryWidgetOptions['symbol']) {
+    this._symbol = value;
   }
 
-  @Input()
-  set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
-    this._symbol = symbol || this._symbol;
-    if (this._tvWidget !== null) {
-      this._tvWidget.onChartReady(() => {
-        console.log('WIDGET', this._tvWidget);
-        console.log('Symbol', symbol);
-        this._tvWidget.chart().setSymbol(symbol, () => {
-          console.log('symbol added');
-        });
-      });
-    }
+  public constructor() { }
+
+  public ngOnInit(): void {
+    this.init();
   }
 
-  @Input()
-  set interval(interval: ChartingLibraryWidgetOptions['interval']) {
-    this._interval = interval || this._interval;
-  }
-
-  @Input()
-  set datafeedUrl(datafeedUrl: string) {
-    this._datafeedUrl = datafeedUrl || this._datafeedUrl;
-  }
-
-  @Input()
-  set libraryPath(libraryPath: ChartingLibraryWidgetOptions['library_path']) {
-    this._libraryPath = libraryPath || this._libraryPath;
-  }
-
-  @Input()
-  set chartsStorageUrl(chartsStorageUrl: ChartingLibraryWidgetOptions['charts_storage_url']) {
-    this._chartsStorageUrl = chartsStorageUrl || this._chartsStorageUrl;
-  }
-
-  @Input()
-  set chartsStorageApiVersion(chartsStorageApiVersion: ChartingLibraryWidgetOptions['charts_storage_api_version']) {
-    this._chartsStorageApiVersion = chartsStorageApiVersion || this._chartsStorageApiVersion;
-  }
-
-  @Input()
-  set clientId(clientId: ChartingLibraryWidgetOptions['client_id']) {
-    this._clientId = clientId || this._clientId;
-  }
-
-  @Input()
-  set userId(userId: ChartingLibraryWidgetOptions['user_id']) {
-    this._userId = userId || this._userId;
-  }
-
-  @Input()
-  set fullscreen(fullscreen: ChartingLibraryWidgetOptions['fullscreen']) {
-    this._fullscreen = fullscreen || this._fullscreen;
-  }
-
-  @Input()
-  set autosize(autosize: ChartingLibraryWidgetOptions['autosize']) {
-    this._autosize = autosize || this._autosize;
-  }
-
-  @Input()
-  set containerId(containerId: ChartingLibraryWidgetOptions['container_id']) {
-    this._containerId = containerId || this._containerId;
-  }
-
-  ngOnInit() {
-    function getLanguageFromURL(): LanguageCode | null {
-      const regex = new RegExp('[\\?&]lang=([^&#]*)');
-      const results = regex.exec(location.search);
-
-      return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' ')) as LanguageCode;
-    }
+  public init(resetData?: any) {
     const widgetOptions: ChartingLibraryWidgetOptions = {
       symbol: this._symbol,
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
       interval: this._interval,
       container_id: this._containerId,
       library_path: this._libraryPath,
-      locale: getLanguageFromURL() || 'en',
-      disabled_features: ['use_localstorage_for_settings', 'left_toolbar'],
-      enabled_features: ['study_templates'],
+      locale: 'en',
+      disabled_features: this._disabled_features,
+      enabled_features: this._enabled_features,
       charts_storage_url: this._chartsStorageUrl,
       charts_storage_api_version: this._chartsStorageApiVersion,
       client_id: this._clientId,
@@ -133,44 +69,15 @@ export class RealTimeChartComponent implements IWidgetComponent, AfterViewInit, 
       theme: this._theme,
     };
 
-    const tvWidget = new widget(widgetOptions);
-    this._tvWidget = tvWidget;
+    const width = resetData && resetData.width 
+      ? Math.floor(resetData.width) : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
+    const height = resetData && resetData.height 
+      ? Math.floor(resetData.height) : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 660;
+    
+    widgetOptions.width = width;
+    widgetOptions.height = height;
 
-    tvWidget.onChartReady(() => {
-      tvWidget.headerReady().then(() => {
-        const button = tvWidget.createButton();
-        button.setAttribute('title', 'Click to show a notification popup');
-        button.classList.add('apply-common-tooltip');
-        button.addEventListener('click', () => tvWidget.showNoticeDialog({
-          title: 'Notification',
-          body: 'TradingView Charting Library API works correctly',
-          callback: () => {
-            console.log('Noticed!');
-          },
-        }));
-        button.innerHTML = 'Check API';
-      });
-    });
-  }
-  
-  public ngAfterViewInit() {
-    this.init();
-  }
-  
-  public init(resetData?: any) {
-    this.width = resetData && resetData.width
-      ? Math.floor(resetData.width)
-      : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
-    this.height = resetData && resetData.height
-      ? Math.floor(resetData.height)
-      : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 400;
-  }
+    new widget(widgetOptions);
 
-  ngOnDestroy() {
-    console.log('destroyed');
-    if (this._tvWidget !== null) {
-      // this._tvWidget.remove();
-      this._tvWidget = null;
-    }
   }
 }

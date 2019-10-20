@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, Input, OnDestroy } from '@angular/core';
 import { setupOptionsByParams } from './chart.options';
 import { IWidgetComponent, IWidget } from '@lib/models';
 import { WidgetScriptService } from '@app/core/services/widget-script.service';
@@ -8,7 +8,8 @@ import { WidgetScriptService } from '@app/core/services/widget-script.service';
   templateUrl: './market-overview-chart.component.html',
   styleUrls: ['./market-overview-chart.component.scss'],
 })
-export class MarketOverviewChartComponent implements OnInit, IWidgetComponent {
+export class MarketOverviewChartComponent implements OnInit, IWidgetComponent, OnDestroy {
+
   @ViewChild('container', { static: true })
   public container: ElementRef;
 
@@ -32,24 +33,27 @@ export class MarketOverviewChartComponent implements OnInit, IWidgetComponent {
   public ngOnInit() {
     this.init();
   }
-
+  
   public init(resetData?: any) {
     if (this._script || this._content) {
       this._content.remove();
       this._script = undefined;
       this._content = undefined;
     }
-
+    
     const params = setupOptionsByParams(this.drawDataset, resetData);
     this._content = this._renderer.createElement('div');
-
+    
     this._script = this._widgetScriptSvc.appendScript(
       this._renderer,
       this._content,
       { src: 'https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js' },
       params,
-    );
-
+      );
+      
     this._renderer.appendChild(this.container.nativeElement, this._content);
+  }
+
+  ngOnDestroy() {
   }
 }
