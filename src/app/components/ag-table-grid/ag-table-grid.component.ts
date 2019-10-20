@@ -7,7 +7,7 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { IWidgetComponent, IWidget } from '@lib/models';
-import { GridQuotesService } from '@app/core/services';
+import { GridQuotesService } from '@app/core/services/grid-quotes.service';
 
 @Component({
   selector: 'app-ag-table-grid',
