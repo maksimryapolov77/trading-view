@@ -4,8 +4,7 @@
         class="my-code-editor"
         [options]="editorOptions"
         [(ngModel)]="code"
+        (keyup.enter)="onKeyUp()"
         >
     </ngx-monaco-editor>
 </div>
-
-<!-- (keyup.enter)="onKeyUp()" -->

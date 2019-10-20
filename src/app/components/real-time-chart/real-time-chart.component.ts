@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IWidgetComponent, IWidget } from '@lib/models';
-import { ChartingLibraryWidgetOptions, widget } from 'assets/charting_library/charting_library.min';
+import { ChartingLibraryWidgetOptions, widget, IChartingLibraryWidget } from 'assets/charting_library/charting_library.min';
 
 @Component({
   selector: 'app-real-time-chart',
@@ -8,8 +8,7 @@ import { ChartingLibraryWidgetOptions, widget } from 'assets/charting_library/ch
   styleUrls: ['./real-time-chart.component.scss'],
 })
 export class RealTimeChartComponent implements OnInit, IWidgetComponent {
-  // @ViewChild('container', { static: true })
-  // public container: ElementRef;
+
 
   @Input()
   public drawDataset: any;
@@ -38,10 +37,17 @@ export class RealTimeChartComponent implements OnInit, IWidgetComponent {
   private _disabled_features: ChartingLibraryWidgetOptions['disabled_features'] = ['use_localstorage_for_settings', 'left_toolbar'];
   private _enabled_features: ChartingLibraryWidgetOptions['enabled_features'] = ['study_templates'];
 
+  private _tvWidget: IChartingLibraryWidget;
+
 
   @Input()
   public set symbol(value: ChartingLibraryWidgetOptions['symbol']) {
     this._symbol = value;
+    this._tvWidget.onChartReady(() => {
+      this._tvWidget.chart().setSymbol(this._symbol, () => {
+        console.log('symbol added');
+      });
+    });
   }
 
   public constructor() { }
@@ -69,15 +75,16 @@ export class RealTimeChartComponent implements OnInit, IWidgetComponent {
       theme: this._theme,
     };
 
-    const width = resetData && resetData.width 
+    const width = resetData && resetData.width
       ? Math.floor(resetData.width) : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
-    const height = resetData && resetData.height 
+    const height = resetData && resetData.height
       ? Math.floor(resetData.height) : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 660;
-    
+
     widgetOptions.width = width;
     widgetOptions.height = height;
 
-    new widget(widgetOptions);
+    const tvWidget = new widget(widgetOptions);
+    this._tvWidget = tvWidget;
 
   }
 }

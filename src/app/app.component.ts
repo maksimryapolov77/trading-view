@@ -18,6 +18,8 @@ export class AppComponent implements AfterViewInit {
   public columns: IColumn[];
   public activeColumnIndex: number;
 
+  public symbol = 'AAAL';
+
   public get saveFormattedColumns(): IColumn[] {
     return this.columns.reduce((prev, curr) => [...prev, { id: curr.id }], []);
   }
@@ -71,6 +73,10 @@ export class AppComponent implements AfterViewInit {
     this._resizeColumns();
   }
 
+  public onSymbolChanged(symbol: string) {
+    this.symbol = symbol;
+  }
+  
   private _resizeColumns() {
     this.columnContainers.forEach(col => {
       const data = (col as any)._data.componentView.component as Partial<DashboardColumnContainer>;
@@ -78,3 +84,4 @@ export class AppComponent implements AfterViewInit {
     })
   }
 }
+

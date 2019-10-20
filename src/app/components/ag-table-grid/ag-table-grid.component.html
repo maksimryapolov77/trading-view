@@ -6,8 +6,9 @@
   [columnDefs]="columnDefs"
   [defaultColDef]="{ editable: true, resizable: true }"
   [colResizeDefault]="'shift'"
+  (rowClicked)="onRowClicked($event)"
+  
   #agGrid
   ></ag-grid-angular>
   
-  <!-- (cellValueChanged)="change($event)"
-  (rowClicked)="onRowClicked($event)" -->
+  <!-- (cellValueChanged)="change($event)" -->

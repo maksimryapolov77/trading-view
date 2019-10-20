@@ -26,6 +26,7 @@
             [data]="getWidgetsDataByWidgetId(item.id)" 
             [drawDataset]="setupGridsterData(cardIndex, gridsterItem, realTimeChart)" 
             class="w-100"
+            [symbol]="symbol"
             >
           </app-real-time-chart>
           <app-stock-market-chart 

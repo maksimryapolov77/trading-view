@@ -3,6 +3,8 @@ import {
   OnInit,
   Input,
   OnDestroy,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { IWidgetComponent, IWidget } from '@lib/models';
 import { GridQuotesService } from '@app/core/services';
@@ -22,6 +24,9 @@ export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy
 
   @Input()
   public widget: IWidget;
+
+  @Output()
+  public symbolChanged = new EventEmitter<string>();
 
   public width: number;
   public height: number;
@@ -68,8 +73,8 @@ export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy
   //   this._widgetDataSvc.updateByWidgetId(this.widget.id, this.widget.columnId, { rowData: this.rowData, columnDefs: this.columnDefs });
   // }
 
-  // onRowClicked(event: { data: { v: { short_name: string; }; }; }) {
-  //   const symbol: string = event.data.v.short_name;
-  // }
-  
+  onRowClicked(event: { data: { v: { short_name: string; }; }; }) {
+    const symbol: string = event.data.v.short_name;
+    this.symbolChanged.emit(symbol);
+  }
 }

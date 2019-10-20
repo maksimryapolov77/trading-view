@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { IWidget, IWidgetComponent } from '@lib/models';
 
 @Component({
@@ -15,6 +15,9 @@ export class MonacoEditorComponent implements IWidgetComponent, OnInit {
 
   @Input()
   public widget: IWidget;
+
+  @Output()
+  public symbolChanged = new EventEmitter<string>();
 
   public width: number;
   public height: number;
@@ -38,8 +41,10 @@ export class MonacoEditorComponent implements IWidgetComponent, OnInit {
       ? Math.floor(resetData.height)
       : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 600;
 
-    console.log(this.width);
-    console.log(this.height);
-    this.code = 'width: ' + this.width + '\nheight: ' + this.height;  
+  }
+
+  onKeyUp() {
+    const symbol: string = this.code.replace(/(\r\n|\n|\r)/gm, '');
+    this.symbolChanged.emit(symbol);
   }
 }
