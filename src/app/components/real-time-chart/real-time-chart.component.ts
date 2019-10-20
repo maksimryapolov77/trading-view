@@ -32,22 +32,22 @@ export class RealTimeChartComponent implements OnInit, IWidgetComponent {
   private _userId: ChartingLibraryWidgetOptions['user_id'] = 'public_user_id';
   private _fullscreen: ChartingLibraryWidgetOptions['fullscreen'] = false;
   private _autosize: ChartingLibraryWidgetOptions['autosize'] = false;
-  private _containerId: ChartingLibraryWidgetOptions['container_id'] = 'real-time-chart-container';
   private _theme: ChartingLibraryWidgetOptions['theme'] = 'Dark';
   private _disabled_features: ChartingLibraryWidgetOptions['disabled_features'] = ['use_localstorage_for_settings', 'left_toolbar'];
   private _enabled_features: ChartingLibraryWidgetOptions['enabled_features'] = ['study_templates'];
-
-  private _tvWidget: IChartingLibraryWidget;
-
+  private _tvWidget: IChartingLibraryWidget | null = null;
+  public containerId: ChartingLibraryWidgetOptions['container_id'] = 'tvChart' + new Date().getTime();
 
   @Input()
   public set symbol(value: ChartingLibraryWidgetOptions['symbol']) {
     this._symbol = value;
-    this._tvWidget.onChartReady(() => {
-      this._tvWidget.chart().setSymbol(this._symbol, () => {
-        console.log('symbol added');
+    if (this._tvWidget !== null) {
+      this._tvWidget.onChartReady(() => {
+        this._tvWidget.chart().setSymbol(this._symbol, () => {
+          console.log('symbol added');
+        });
       });
-    });
+    }
   }
 
   public constructor() { }
@@ -61,7 +61,7 @@ export class RealTimeChartComponent implements OnInit, IWidgetComponent {
       symbol: this._symbol,
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
       interval: this._interval,
-      container_id: this._containerId,
+      container_id: this.containerId,
       library_path: this._libraryPath,
       locale: 'en',
       disabled_features: this._disabled_features,
@@ -74,6 +74,8 @@ export class RealTimeChartComponent implements OnInit, IWidgetComponent {
       autosize: this._autosize,
       theme: this._theme,
     };
+
+    
 
     const width = resetData && resetData.width
       ? Math.floor(resetData.width) : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
