@@ -17,7 +17,7 @@ export class WidgetBarService {
   private _widgetBar = new BehaviorSubject<IWidget[]>(this._storageSvc.get(StorageKeys.widgetBar) || WidgetBarSelectors);
 
   public get widgetBarValue(): IWidget[]  {
-    return this._widgetBar.value;
+    return (this._widgetBar as any).value;
   }
 
   public get data(): Observable<IWidget[]> {
@@ -28,15 +28,14 @@ export class WidgetBarService {
     private _storageSvc: StorageService,
   ) {}
 
-  public minimizeWidget(value: IWidget) {
+  public updateWidget(value: IWidget) {
     const existWidget = this.widgetBarValue && this.widgetBarValue.find(widget => widget.id === value.id);
     let draftWidgets = [];
 
     if (existWidget) {
-      draftWidgets = this.widgetBarValue.map(widget => widget.id === value.id ? { ...value, hidden: false } : widget);
+      draftWidgets = this.widgetBarValue.map(widget => widget.id === value.id ? value : widget);
     } else {
-      draftWidgets = [...this.widgetBarValue];
-      draftWidgets.push(value);
+      draftWidgets = [...this.widgetBarValue, value];
     }
 
     this._storageSvc.set(StorageKeys.widgetBar, draftWidgets.map(w => ({ ...w, component: undefined })));
@@ -49,8 +48,16 @@ export class WidgetBarService {
     this._widgetBar.next(widgets);
   }
 
+  public removeWidget(widget: IWidget) {
+    const existWidgetIndex = this.widgetBarValue.findIndex(w => w.id === widget.id);
+    const widgets = [...this.widgetBarValue];
+    widgets.splice(existWidgetIndex, 1);
+    this._storageSvc.set(StorageKeys.widgetBar, widgets.map(w => ({ ...w, component: undefined })));
+    this._widgetBar.next(widgets);
+  }
+
   public addComponentToWidget(widget: IWidget) {
-    let component = undefined;
+    let component;
 
     switch (widget.type) {
       case ChartTypes.MarketOverviewChart:

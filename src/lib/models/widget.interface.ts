@@ -1,6 +1,5 @@
 export interface IWidget {
   id: number;
-  connectedBarWidget: number;
   title: string;
   cols: number;
   rows: number;
@@ -10,5 +9,5 @@ export interface IWidget {
   pinned: boolean;
   columnId?: number;
   isCustom?: boolean;
-  hidden: boolean;
+  inDashboard: boolean;
 };

@@ -15,6 +15,7 @@ import { HeaderContainer, DashboardColumnContainer } from './containers';
 import {
   TitleBarComponent,
   WidgetBarComponent,
+  ColumnDividerComponent,
 
   // charts
   RealTimeChartComponent,
@@ -33,6 +34,7 @@ const CONTAINERS = [
 const COMPONENTS = [
   TitleBarComponent,
   WidgetBarComponent,
+  ColumnDividerComponent,
 
   // charts
   RealTimeChartComponent,
