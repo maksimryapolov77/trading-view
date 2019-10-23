@@ -18,13 +18,28 @@ export class ChartPlusComponent implements OnInit, IWidgetComponent {
 
   public symbol = 'AAL'
 
-  init: (data?: any) => void;
   showChart = true;
   showGrid = true;
   showEditor = true;
   
   ngOnInit(): void {
+    this.init();
   }
+  
+  public init() {
+    const widgetType: string = this.widget.type;
+    console.log(widgetType);
+    if (widgetType === ChartTypes.RealTimeChart) {
+      this.showChart = true;
+    }
+    if (widgetType === ChartTypes.MonacoEditor) {
+      this.showEditor = true;
+    }
+    if (widgetType === ChartTypes.AgTableGrid) {
+      this.showGrid = true;
+    }
+  };
+
 
   public onShowChanged(type: string) {
     if (type === ChartTypes.RealTimeChart) {
