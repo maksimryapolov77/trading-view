@@ -24,9 +24,9 @@ import {
 
   AgTableGridComponent,
   MonacoEditorComponent,
+  ChartPlusComponent,
+  ChartToolbarComponent,
 } from './components';
-import { ChartPlusComponent } from './components/chart-plus/chart-plus.component';
-import { ChartToolbarComponent } from './components/chart-plus/chart-toolbar/chart-toolbar.component';
 
 const CONTAINERS = [
   HeaderContainer,
@@ -46,6 +46,9 @@ const COMPONENTS = [
   // other-widgets
   AgTableGridComponent,
   MonacoEditorComponent,
+
+  ChartPlusComponent,
+  ChartToolbarComponent,
 ];
 
 const entryComponents = [
@@ -54,7 +57,8 @@ const entryComponents = [
   MarketOverviewChartComponent,
   AgTableGridComponent,
   MonacoEditorComponent,
-
+  ChartPlusComponent,
+  ChartToolbarComponent,
 ];
 
 const monacoConfig: NgxMonacoEditorConfig = {
@@ -67,8 +71,7 @@ const monacoConfig: NgxMonacoEditorConfig = {
     AppComponent,
     COMPONENTS,
     CONTAINERS,
-    ChartPlusComponent,
-    ChartToolbarComponent,
+    
   ],
   imports: [
   	BrowserModule,

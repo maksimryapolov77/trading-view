@@ -1,5 +1,4 @@
 export { ColumnDividerComponent } from './column-divider/column-divider.component';
-
 export { TitleBarComponent } from './title-bar/title-bar.component';
 export { WidgetBarComponent } from './widget-bar/widget-bar.component';
 
@@ -13,4 +12,5 @@ export { AgTableGridComponent } from './chart-plus/ag-table-grid/ag-table-grid.c
 
 // monaco editor
 export { MonacoEditorComponent } from './chart-plus/monaco-editor/monaco-editor.component';
-
+export { ChartPlusComponent } from './chart-plus/chart-plus.component';
+export { ChartToolbarComponent} from './chart-plus/chart-toolbar/chart-toolbar.component'
