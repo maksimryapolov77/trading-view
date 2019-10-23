@@ -61,7 +61,7 @@ export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy
     this.width = resetData && resetData.width 
       ? Math.floor(resetData.width) : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
     this.height = resetData && resetData.height 
-      ? Math.floor(resetData.height) : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) / 3 || 660;
+      ? Math.floor(resetData.height) : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 660;
     
   }
 

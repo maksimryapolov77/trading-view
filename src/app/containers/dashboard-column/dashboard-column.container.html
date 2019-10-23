@@ -21,7 +21,7 @@
     <div class="gridster-item__content">
       <div class="iframe-container">
         <ng-container [ngSwitch]="item.type">
-          <!-- <app-real-time-chart 
+          <app-real-time-chart 
             *ngSwitchCase="chartTypes.RealTimeChart" 
             #realTimeChart 
             [widget]="item" 
@@ -30,7 +30,7 @@
             class="w-100"
             [symbol]="symbol"
             >
-          </app-real-time-chart> -->
+          </app-real-time-chart>
           <app-stock-market-chart 
             *ngSwitchCase="chartTypes.StockMarketChart" 
             #stockMarketChart 
@@ -52,24 +52,11 @@
         </ng-container>
       </div>
 
-      <!-- <ng-container [ngSwitch]="item.type">
+      <ng-container [ngSwitch]="item.type">
         <div class="gridster-item-content">
           <app-ag-table-grid (symbolChanged)="onSymbolChanged($event)" *ngSwitchCase="chartTypes.AgTableGrid" #agTableGrid [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, agTableGrid)" class="w-100"></app-ag-table-grid>
           <app-monaco-editor (symbolChanged)="onSymbolChanged($event)" *ngSwitchCase="chartTypes.MonacoEditor" #monacoEditor [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, monacoEditor)" class="w-100"></app-monaco-editor>
-          <app-chart-plus *ngSwitchCase="chartTypes.ChartPlus" #chartPlus [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, monacoEditor)" class="w-100"></app-chart-plus>
         </div>
-      </ng-container> -->
-
-      <ng-container *ngIf="chartTypes.AgTableGrid || chartTypes.MonacoEditor || chartTypes.RealTimeChart">
-          <div class="gridster-item-content">
-            <app-chart-plus
-              #chartPlus
-              [widget]="item"
-              [data]="getWidgetsDataByWidgetId(item.id)" 
-              [drawDataset]="setupGridsterData(cardIndex, gridsterItem, charPlus)" 
-              >
-            </app-chart-plus>
-          </div>
       </ng-container>
     </div>
   </gridster-item>

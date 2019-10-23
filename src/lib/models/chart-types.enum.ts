@@ -4,5 +4,4 @@ export const ChartTypes = {
   StockMarketChart: 'StockMarketChart',
   AgTableGrid: 'AgTableGrid',
   MonacoEditor: 'MonacoEditor',
-  ChartPlus: 'ChartPlus',
 }

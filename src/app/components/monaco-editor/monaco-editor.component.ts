@@ -46,7 +46,7 @@ export class MonacoEditorComponent implements IWidgetComponent, OnInit {
       ? Math.floor(resetData.height)
       : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 600;
 
-    this._cdr.detectChanges();
+      this._cdr.detectChanges();
   }
 
   public onKeyUp() {
