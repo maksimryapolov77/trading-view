@@ -56,6 +56,7 @@
         <div class="gridster-item-content">
           <app-ag-table-grid (symbolChanged)="onSymbolChanged($event)" *ngSwitchCase="chartTypes.AgTableGrid" #agTableGrid [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, agTableGrid)" class="w-100"></app-ag-table-grid>
           <app-monaco-editor (symbolChanged)="onSymbolChanged($event)" *ngSwitchCase="chartTypes.MonacoEditor" #monacoEditor [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, monacoEditor)" class="w-100"></app-monaco-editor>
+          <app-chart-plus *ngSwitchCase="chartTypes.ChartPlus" #chartPlus [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, monacoEditor)" class="w-100"></app-chart-plus>
         </div>
       </ng-container>
     </div>

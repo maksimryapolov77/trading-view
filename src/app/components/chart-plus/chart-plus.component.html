@@ -1,0 +1,17 @@
+<div [style.width]="width" [style.height]="height">
+    <app-chart-toolbar (selectSubItem) = "onShowChanged"></app-chart-toolbar>
+    <ng-container [ngSwitch]="widget.type">
+        <app-real-time-chart
+            *ngIf="showChart"
+            #realTimeChart>
+        </app-real-time-chart>
+        <app-ag-table-grid
+            *ngIf="showGrid"
+            #agGrid>
+        </app-ag-table-grid>
+        <app-monaco-editor
+            *ngIf="showEditor"
+            #monacoEditor>
+        </app-monaco-editor>
+    </ng-container>
+</div>

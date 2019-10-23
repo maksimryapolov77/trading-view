@@ -6,9 +6,10 @@ import { StorageKeys, IWidget, WidgetBarSelectors, ChartTypes } from '@lib/model
 
 import { StockMarketChartComponent } from '@app/components/stock-market-chart/stock-market-chart.component';
 import { MarketOverviewChartComponent } from '@app/components/market-overview-chart/market-overview-chart.component';
-import { RealTimeChartComponent } from '@app/components/real-time-chart/real-time-chart.component';
-import { AgTableGridComponent } from '@app/components/ag-table-grid/ag-table-grid.component';
-import { MonacoEditorComponent } from '@app/components/monaco-editor/monaco-editor.component';
+import { RealTimeChartComponent } from '@app/components/chart-plus/real-time-chart/real-time-chart.component';
+import { AgTableGridComponent } from '@app/components/chart-plus/ag-table-grid/ag-table-grid.component';
+import { MonacoEditorComponent } from '@app/components/chart-plus/monaco-editor/monaco-editor.component';
+import { ChartPlusComponent } from '@app/components/chart-plus/chart-plus.component';
 
 @Injectable({
   providedIn: 'root',
@@ -74,6 +75,9 @@ export class WidgetBarService {
         break;
       case ChartTypes.MonacoEditor:
         component = MonacoEditorComponent;
+        break;
+      case ChartTypes.ChartPlus:
+        component = ChartPlusComponent;
         break;
     }
 
