@@ -61,7 +61,12 @@
       </ng-container> -->
       <ng-container *ngIf="chartTypes.AgTableGrid || chartTypes.MonacoEditor || chartTypes.RealTimeChart">
           <div class="gridster-item-content">
-            <app-chart-plus></app-chart-plus>
+            <app-chart-plus
+              [widget]="item" 
+              [data]="getWidgetsDataByWidgetId(item.id)" 
+              [drawDataset]="setupGridsterData(cardIndex, gridsterItem, overviewMarketChart)" 
+              >
+            </app-chart-plus>
           </div>
       </ng-container>
     </div>

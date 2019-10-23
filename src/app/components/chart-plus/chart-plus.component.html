@@ -5,14 +5,23 @@
     <ng-container>
         <app-real-time-chart
             *ngIf="showChart"
+            [widget]="widget" 
+            [data]="data" 
+            [drawDataset]="drawDataset" 
             #realTimeChart>
         </app-real-time-chart>
         <app-ag-table-grid
             *ngIf="showGrid"
+            [widget]="widget" 
+            [data]="data" 
+            [drawDataset]="drawDataset" 
             #agGrid>
         </app-ag-table-grid>
         <app-monaco-editor
             *ngIf="showEditor"
+            [widget]="widget" 
+            [data]="data" 
+            [drawDataset]="drawDataset" 
             #monacoEditor>
         </app-monaco-editor>
     </ng-container>
