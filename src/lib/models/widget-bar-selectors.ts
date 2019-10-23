@@ -5,12 +5,12 @@ export const WidgetBarSelectors: IWidget[] = [
   {
     id: 1,
     pinned: true,
-    cols: 1,
-    rows: 1,
+    cols: 8,
+    rows: 8,
     inDashboard: false,
     title: 'Real-Time Chart',
     component: undefined,
-    type: ChartTypes.ChartPlus,
+    type: ChartTypes.RealTimeChart,
     drawDataset: {
       containerId: 'widget-bar-container',
     },
@@ -40,12 +40,12 @@ export const WidgetBarSelectors: IWidget[] = [
   {
     id: 4,
     pinned: false,
-    cols: 1,
-    rows: 1,
+    cols: 8,
+    rows: 4,
     inDashboard: false,
     title: 'Ag-grid',
     component: undefined,
-    type: ChartTypes.ChartPlus,
+    type: ChartTypes.AgTableGrid,
     drawDataset: undefined,
   },
   {
@@ -73,13 +73,12 @@ export const WidgetBarSelectors: IWidget[] = [
   {
     id: 7,
     pinned: false,
-    cols: 1,
-    rows: 1,
+    cols: 8,
+    rows: 4,
     inDashboard: false,    
     title: 'Monaco Editor',
     component: undefined,
-    type: ChartTypes.ChartPlus,
+    type: ChartTypes.MonacoEditor,
     drawDataset: undefined,
   },
-
 ];

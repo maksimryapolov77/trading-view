@@ -1,6 +1,8 @@
-<div [style.width]="width" [style.height]="height">
+<!-- <div [style.width]="width" [style.height]="height"> -->
+<div>
     <app-chart-toolbar (selectSubItem) = "onShowChanged"></app-chart-toolbar>
-    <ng-container [ngSwitch]="widget.type">
+    <!-- <ng-container [ngSwitch]="widget.type"> -->
+    <ng-container>
         <app-real-time-chart
             *ngIf="showChart"
             #realTimeChart>
