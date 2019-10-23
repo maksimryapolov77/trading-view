@@ -59,12 +59,14 @@
           <app-chart-plus *ngSwitchCase="chartTypes.ChartPlus" #chartPlus [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, monacoEditor)" class="w-100"></app-chart-plus>
         </div>
       </ng-container> -->
+
       <ng-container *ngIf="chartTypes.AgTableGrid || chartTypes.MonacoEditor || chartTypes.RealTimeChart">
           <div class="gridster-item-content">
             <app-chart-plus
-              [widget]="item" 
+              #chartPlus
+              [widget]="item"
               [data]="getWidgetsDataByWidgetId(item.id)" 
-              [drawDataset]="setupGridsterData(cardIndex, gridsterItem, overviewMarketChart)" 
+              [drawDataset]="setupGridsterData(cardIndex, gridsterItem, charPlus)" 
               >
             </app-chart-plus>
           </div>

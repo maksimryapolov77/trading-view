@@ -48,8 +48,7 @@ export class RealTimeChartComponent implements OnInit, IWidgetComponent, AfterVi
     }
   }
 
-  public constructor(
-  ) { }
+  public constructor() { }
   
   public ngOnInit(): void {
   }
@@ -58,7 +57,7 @@ export class RealTimeChartComponent implements OnInit, IWidgetComponent, AfterVi
     this.init();
   }
 
-  public init(resetData?: any) {
+  public init() {
     const widgetOptions: ChartingLibraryWidgetOptions = {
       symbol: this._symbol,
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
@@ -77,13 +76,13 @@ export class RealTimeChartComponent implements OnInit, IWidgetComponent, AfterVi
       theme: this._theme,
     };
 
-    const width = resetData && resetData.width
-      ? Math.floor(resetData.width) : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
-    const height = resetData && resetData.height
-      ? Math.floor(resetData.height) : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 660;
+    // const width = resetData && resetData.width
+    //   ? Math.floor(resetData.width) : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
+    // const height = resetData && resetData.height
+    //   ? Math.floor(resetData.height) : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 660;
 
-    widgetOptions.width = width;
-    widgetOptions.height = height;
+    // widgetOptions.width = width;
+    widgetOptions.height = 400;
 
     const tvWidget = new widget(widgetOptions);
     this._tvWidget = tvWidget;

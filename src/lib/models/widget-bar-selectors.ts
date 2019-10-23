@@ -81,4 +81,15 @@ export const WidgetBarSelectors: IWidget[] = [
     type: ChartTypes.MonacoEditor,
     drawDataset: undefined,
   },
+  // {
+  //   id: 8,
+  //   pinned: false,
+  //   cols: 20,
+  //   rows: 20,
+  //   inDashboard: false,    
+  //   title: 'Chart Plus',
+  //   component: undefined,
+  //   type: ChartTypes.ChartPlus,
+  //   drawDataset: undefined,
+  // },
 ];

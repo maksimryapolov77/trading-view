@@ -1,6 +1,6 @@
 <!-- <div [style.width]="width" [style.height]="height"> -->
 <div>
-    <app-chart-toolbar (selectSubItem) = "onShowChanged"></app-chart-toolbar>
+    <app-chart-toolbar (selectSubItem) = "onShowChanged($event)"></app-chart-toolbar>
     <!-- <ng-container [ngSwitch]="widget.type"> -->
     <ng-container>
         <app-real-time-chart
@@ -8,21 +8,26 @@
             [widget]="widget" 
             [data]="data" 
             [drawDataset]="drawDataset" 
-            #realTimeChart>
+            #realTimeChart
+            [symbol]="symbol"
+            >
         </app-real-time-chart>
         <app-ag-table-grid
             *ngIf="showGrid"
             [widget]="widget" 
             [data]="data" 
             [drawDataset]="drawDataset" 
-            #agGrid>
+            #agGrid
+            (symbolChanged)="symbolChanged($event)"
+            >
         </app-ag-table-grid>
         <app-monaco-editor
             *ngIf="showEditor"
             [widget]="widget" 
             [data]="data" 
             [drawDataset]="drawDataset" 
-            #monacoEditor>
+            #monacoEditor
+            (symbolChanged)="symbolChanged($event)">
         </app-monaco-editor>
     </ng-container>
 </div>

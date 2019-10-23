@@ -4,7 +4,7 @@ import { ChartTypes, IWidgetComponent, IWidget } from '@lib/models';
 @Component({
   selector: 'app-chart-plus',
   templateUrl: './chart-plus.component.html',
-  styleUrls: ['./chart-plus.component.scss']
+  styleUrls: ['./chart-plus.component.scss'],
 })
 export class ChartPlusComponent implements OnInit, IWidgetComponent {
   @Input()
@@ -16,8 +16,7 @@ export class ChartPlusComponent implements OnInit, IWidgetComponent {
   @Input()
   public widget: IWidget;
 
-  public width;
-  public height;
+  public symbol = 'AAL'
 
   init: (data?: any) => void;
   showChart = true;
@@ -35,6 +34,10 @@ export class ChartPlusComponent implements OnInit, IWidgetComponent {
     } else if (type === ChartTypes.MonacoEditor) {
       this.showEditor = !this.showEditor;
     }
+  }
+
+  public symbolChanged(symbol: string) {
+    this.symbol = symbol
   }
 
 

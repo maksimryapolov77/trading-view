@@ -76,9 +76,6 @@ export class WidgetBarService {
       case ChartTypes.MonacoEditor:
         component = MonacoEditorComponent;
         break;
-      case ChartTypes.ChartPlus:
-        component = ChartPlusComponent;
-        break;
     }
 
     return { ...widget, component };
