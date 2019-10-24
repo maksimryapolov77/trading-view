@@ -1,0 +1,17 @@
+    <app-chart-toolbar
+        [resetData]="resetData"
+        (chartClick)="chartClick($event)"
+        (gridClick)="gridClick($event)"
+        (editorClick)="editorClick($event)"
+        >
+    </app-chart-toolbar>
+    
+    <app-real-time-chart *ngIf="chartCount > 0" [resetData]="chartSizeDataSet" [symbol]="symbol"></app-real-time-chart>
+
+    <ng-container *ngFor="let item of gridCount">
+        <app-ag-table-grid  [resetData]="gridSizeDataSet" (symbolChanged)="symbolChanged($event)"></app-ag-table-grid>
+    </ng-container>
+
+    <app-monaco-editor *ngIf="editorCount > 0" [resetData]="editorSizeDataSet" (symbolChanged)="symbolChanged($event)"></app-monaco-editor>
+
+

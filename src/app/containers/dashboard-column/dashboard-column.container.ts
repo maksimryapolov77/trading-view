@@ -27,6 +27,7 @@ export class DashboardColumnContainer implements OnInit {
   public columnData: any;
 
   public chartTypes = ChartTypes;
+
   public options: GridsterConfig;
   public currentGridItemIndex: number;
 

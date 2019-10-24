@@ -26,15 +26,15 @@
       [style.min-width]="pinnedWidgetSelectors.length ? 0 : '50px'"
       class="widget-bar__drop-list"
       [attr.data-name]="pinnedSelectorsContainerName"
-    >
+      >
+      <!-- (mouseenter)="showWidgetPreview(widget, i, 'loader-1-'+i)"
+      (mouseleave)="removeWidgetPreview(widget.id)" -->
       <ng-container *ngFor="let widget of pinnedWidgetSelectors; let i = index">
         <button
           *ngIf="!widget.inDashboard"
           cdkDrag
           [cdkDragDisabled]="!editMode"
           (click)="selectBar(widget)"
-          (mouseenter)="showWidgetPreview(widget, i, 'loader-1-'+i)"
-          (mouseleave)="removeWidgetPreview(widget.id)"
           class="mr-3 widget-bar__item widget-bar__item_light"
         >
           {{ widget.title }}

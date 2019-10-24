@@ -5,8 +5,8 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
+  AfterViewInit,
 } from '@angular/core';
-import { IWidgetComponent, IWidget } from '@lib/models';
 import { GridQuotesService } from '@app/core/services/grid-quotes.service';
 
 @Component({
@@ -15,15 +15,10 @@ import { GridQuotesService } from '@app/core/services/grid-quotes.service';
   styleUrls: ['./ag-table-grid.component.scss'],
 })
 
-export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy {
-  @Input()
-  public drawDataset: any;
+export class AgTableGridComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  @Input()
-  public data: any;
 
-  @Input()
-  public widget: IWidget;
+  @Input() resetData: any;
 
   @Output()
   public readonly symbolChanged = new EventEmitter<string>();
@@ -52,16 +47,17 @@ export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy
   public async ngOnInit() {
     const data: any = await this._gridQuotesSvc.getQuotes();
     this.rowData = data.d;
+  }
+  
+  ngAfterViewInit() {
     this.init();
   }
 
   public ngOnDestroy() {}
 
-  public init(resetData?: any) {
-    this.width = resetData && resetData.width 
-      ? Math.floor(resetData.width) : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
-    this.height = resetData && resetData.height 
-      ? Math.floor(resetData.height) : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 660;
+  public init() {
+    this.width = this.resetData.width;
+    this.height = this.resetData.height;
     
   }
 

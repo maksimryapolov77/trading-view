@@ -19,7 +19,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 import { WidgetBarService, WorkspaceService } from '@app/core/services';
 
 
-import { IWidget, IWorkspace } from '@lib/models';
+import { IWidget, IWorkspace, ChartTypes, chartPlusWidgetSelector } from '@lib/models';
 
 @Component({
   selector: 'app-widget-bar',
@@ -102,6 +102,13 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.editMode || !this.columnId) {
       return;
     }
+
+    const widgetType = widget.type;
+
+    if (widgetType === ChartTypes.RealTimeChart || widgetType === ChartTypes.AgTableGrid || widgetType === ChartTypes.MonacoEditor) {
+      widget.cols = chartPlusWidgetSelector.cols;
+      widget.rows = chartPlusWidgetSelector.rows;
+    } 
 
     const widgets = [...this._widgetBarSvc.widgetBarValue];
 

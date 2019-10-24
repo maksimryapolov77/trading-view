@@ -5,3 +5,4 @@ export { IColumn } from './column.interface';
 export { IWidget } from './widget.interface';
 export { StorageKeys } from './storage-keys';
 export { ChartTypes } from './chart-types.enum';
+export { chartPlusWidgetSelector } from './chart-plus-widget-selector';
