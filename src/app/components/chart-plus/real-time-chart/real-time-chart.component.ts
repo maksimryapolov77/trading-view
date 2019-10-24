@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnChanges } from '@angular/core';
 import { ChartingLibraryWidgetOptions, widget, IChartingLibraryWidget } from 'assets/charting_library/charting_library.min';
 
 @Component({
@@ -6,9 +6,12 @@ import { ChartingLibraryWidgetOptions, widget, IChartingLibraryWidget } from 'as
   templateUrl: './real-time-chart.component.html',
   styleUrls: ['./real-time-chart.component.scss'],
 })
-export class RealTimeChartComponent implements OnInit, AfterViewInit {
+export class RealTimeChartComponent implements OnInit, AfterViewInit, OnChanges {
+
   @Input() resetData: any;
 
+  width: number;
+  height: number;
   public containerId: ChartingLibraryWidgetOptions['container_id'] = 'tvChart' + new Date().getTime();
 
 
@@ -26,6 +29,7 @@ export class RealTimeChartComponent implements OnInit, AfterViewInit {
   private _disabledFeatures: ChartingLibraryWidgetOptions['disabled_features'] = ['use_localstorage_for_settings', 'left_toolbar'];
   private _enabledFeatures: ChartingLibraryWidgetOptions['enabled_features'] = ['study_templates'];
   private _tvWidget: IChartingLibraryWidget | null = null;
+  
 
   @Input()
   public set symbol(value: ChartingLibraryWidgetOptions['symbol']) {
@@ -41,15 +45,21 @@ export class RealTimeChartComponent implements OnInit, AfterViewInit {
 
   public constructor() { }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
   }
   
-  public ngAfterViewInit() {
+  ngAfterViewInit() {
     this.init();
   }
 
+  ngOnChanges() {
+    this.init();
+  }
 
-  public init() {
+  init() {
+    this.width = this.resetData.width;
+    this.height = this.resetData.height;
+
     const widgetOptions: ChartingLibraryWidgetOptions = {
       symbol: this._symbol,
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
@@ -67,16 +77,10 @@ export class RealTimeChartComponent implements OnInit, AfterViewInit {
       autosize: this._autosize,
       theme: this._theme,
     };
-    // const width = this.resetData !== undefined ? this.resetData.width : 400;
-    // const height = this.resetData !== undefined ? this.resetData.width : 400;
-    const width = this.resetData.width;
-    const height = this.resetData.height;
 
-    widgetOptions.width = width;
-    widgetOptions.height = height;
-
+    widgetOptions.width = this.width;
+    widgetOptions.height = this.height;
     const tvWidget = new widget(widgetOptions);
     this._tvWidget = tvWidget;
-
   }
 }

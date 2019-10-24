@@ -6,6 +6,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./chart-toolbar.component.scss'],
 })
 export class ChartToolbarComponent implements OnInit {
+  @Input() chartCount: number;
+  
+  @Input() editorCount: number;
+
   @Input() resetData: any;
   
   @Output()

@@ -7,85 +7,123 @@ import { IWidget, IWidgetComponent, ChartTypes } from '@lib/models';
   styleUrls: ['./chart-plus.component.scss'],
 })
 export class ChartPlusComponent implements OnInit, IWidgetComponent, AfterViewInit {
-  
   @Input() drawDataset: any;
   @Input() data: any;
   @Input() widget: IWidget;
 
-  toolbarSizeData: any;
-
   gridCount: string[] = [];
   chartCount = 0;
   editorCount = 0;
+  
+  toolbarSizeData: any;
   chartSizeDataSet: any;
   editorSizeDataSet: any;
   gridSizeDataSet: any;
+
   symbol: string;
+  resetData: any;
+  widgetType: string;
+  gridStatus: boolean;
+  editorStatus: boolean;
+  chartStatus: boolean;
 
   constructor() {
   }
 
   ngOnInit() {
-    this.init();
+    this.widgetType = this.widget.type;
   }
-  
+
   ngAfterViewInit() {
+    this.init();
   }
 
   init(resetData?: any) {
-    console.log(resetData);
-    const widgetType = this.widget.type;
-    switch (widgetType) {
+    if (resetData === undefined) {
+      return;
+    }
+
+    this.resetData = resetData;
+    this.updateItemCount();
+    this.resetDrawDataSets();
+  }
+
+  updateItemCount() {
+    switch (this.widgetType) {
       case ChartTypes.AgTableGrid:
-        this.gridCount = ['1'];
+        // this.gridCount = ['1'];
+        this.gridStatus = !this.gridStatus;
         break;
 
       case ChartTypes.MonacoEditor:
-        this.editorCount++;
+        // this.editorCount++;
+        this.editorStatus = !this.editorStatus;
         break;
 
       case ChartTypes.RealTimeChart:
-        this.chartCount++;
+        // this.chartCount++;
+        this.chartStatus = !this.chartStatus;
         break;
       default:
         break;
     }
-
-    if (resetData === undefined){
-      return;
-    }
-
-    this.toolbarSizeData = resetData;
-
-    const cellDivSize = (resetData.height - 30) / 10;
-
-    this.chartSizeDataSet = {width: resetData.width, height: cellDivSize * 5}
-    this.editorSizeDataSet = {width: resetData.width, height: cellDivSize * 2}
-    this.gridSizeDataSet = {width: resetData.width, height: cellDivSize * 3}
-
-    console.log(this.drawDataset);
-    console.log(this.data);
-    console.log(this.widget.type);
-    console.log(resetData);
   }
 
-  chartClick(_event: any) {
-    console.log('chartClicked');
-    if (this.chartCount < 1) {
-      this.chartCount++;
+  dataSet(percent: number) {
+    this.toolbarSizeData = this.resetData;
+    const cellDivSize = (this.resetData.height - 20) / 10;
+    return {width: this.resetData.width, height: cellDivSize * percent}
+
+  }
+
+  resetDrawDataSets() {
+    if (this.chartStatus && !this.gridStatus && !this.editorStatus) {
+      this.chartSizeDataSet = this.dataSet(10);
     }
+    if (!this.chartStatus && !this.gridStatus && this.editorStatus) {
+      this.editorSizeDataSet = this.dataSet(10);
+    }
+    if (!this.chartStatus && this.gridStatus && !this.editorStatus) {
+      this.gridSizeDataSet = this.dataSet(10);
+    }
+    if (this.chartStatus && this.gridStatus && !this.editorStatus) {
+      this.chartSizeDataSet = this.dataSet(6);
+      this.gridSizeDataSet = this.dataSet(4);
+    }
+    if (!this.chartStatus && this.gridStatus && this.editorStatus) {
+      this.editorSizeDataSet = this.dataSet(4);
+      this.gridSizeDataSet = this.dataSet(6);
+    }
+    if (this.chartStatus && !this.gridStatus && this.editorStatus) {
+      this.chartSizeDataSet = this.dataSet(6);
+      this.editorSizeDataSet = this.dataSet(4);
+    }
+    if (this.chartStatus && this.gridStatus && this.editorStatus) {
+      this.chartSizeDataSet = this.dataSet(5);
+      this.editorSizeDataSet = this.dataSet(2);
+      this.gridSizeDataSet = this.dataSet(3);
+    }
+  }
+
+  
+
+  chartClick(_event: any) {
+    // if (this.chartCount < 1) {
+    // }
+    this.widgetType = ChartTypes.RealTimeChart;
+    this.init(this.resetData);
   }
 
   gridClick(_event: any) {
-    console.log('gridClicked');
-    this.gridCount.push('1');
+    this.widgetType = ChartTypes.AgTableGrid;
+    this.init(this.resetData);
   }
 
   editorClick(_event: any) {
-    console.log('editorClicked');
-    if (this.editorCount < 1) {
-      this.editorCount++;
-    }
+    // if (this.editorCount < 1) {
+    // }
+    this.widgetType = ChartTypes.MonacoEditor;
+    this.init(this.resetData);
   }
 
   symbolChanged(symbol: string) {

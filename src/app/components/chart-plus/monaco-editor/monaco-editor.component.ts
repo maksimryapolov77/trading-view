@@ -1,42 +1,48 @@
-import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectorRef, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-monaco-editor',
   templateUrl: './monaco-editor.component.html',
   styleUrls: ['./monaco-editor.component.scss'],
 })
-export class MonacoEditorComponent implements OnInit {
+export class MonacoEditorComponent implements OnInit, OnChanges {
+
   @Input() resetData: any;
 
   @Output() readonly symbolChanged = new EventEmitter<string>();
 
-  public width: number;
-  public height: number;
+  width: number;
+  height: number;
 
-  public editorOptions = {
+  editorOptions = {
+    automaticLayout: true,
     theme: 'vs-dark',
     selectOnLineNumbers: 'true',
   };
 
-  public code = '';
+  code = '';
 
   constructor(
     private _cdr: ChangeDetectorRef,
   ) {}
 
-  public ngOnInit() {
+  ngOnInit() {
     this.init();
   }
 
-  public init() {
+  
+  ngOnChanges() {
+    this.init();
+  }
+  
+  init() {
     this.width = this.resetData.width;
-
     this.height = this.resetData.height;
 
     this._cdr.detectChanges();
   }
 
-  public onKeyUp() {
+  onKeyUp() {
     const symbol: string = this.code.replace(/(\r\n|\n|\r)/gm, '');
     this.symbolChanged.emit(symbol);
   }

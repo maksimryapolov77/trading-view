@@ -6,6 +6,7 @@ import {
   Output,
   EventEmitter,
   AfterViewInit,
+  OnChanges,
 } from '@angular/core';
 import { GridQuotesService } from '@app/core/services/grid-quotes.service';
 
@@ -15,7 +16,8 @@ import { GridQuotesService } from '@app/core/services/grid-quotes.service';
   styleUrls: ['./ag-table-grid.component.scss'],
 })
 
-export class AgTableGridComponent implements OnInit, OnDestroy, AfterViewInit {
+export class AgTableGridComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
+  
 
 
   @Input() resetData: any;
@@ -50,6 +52,10 @@ export class AgTableGridComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   
   ngAfterViewInit() {
+    this.init();
+  }
+  
+  ngOnChanges() {
     this.init();
   }
 
